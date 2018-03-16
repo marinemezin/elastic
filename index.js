@@ -4,7 +4,7 @@ var jsonfile = require('jsonfile');
 
 var file = "./donnees.json";
 
-var stocks = jsonfile.readFileSync(file);
+var dblps = jsonfile.readFileSync(file);
 
 
 var elasticsearch = require('elasticsearch');
@@ -14,11 +14,11 @@ var client = new elasticsearch.Client({  // default is fine for me, change as yo
 });
 
 var body = [];
-for (var i = 0; i < stocks.length; i++ ) {
-    delete stocks[i]._id;
-    var config = { index:  { _index: 'stocks', _type: 'stock', _id: i } };
+for (var i = 0; i < dblps.length; i++ ) {
+    delete dblps[i]._id;
+    var config = { index:  { _index: 'dblps', _type: 'dblp', _id: i } };
     body.push(config);
-    body.push(stocks[i]);
+    body.push(dblps[i]);
 }
 
 client.bulk({
@@ -35,8 +35,8 @@ client.bulk({
 
 /*
 client.delete({
-    index: "stocks", // name your index
-    type: "stock",
+    index: "dblps", // name your index
+    type: "dblp",
     id: 0
 }, function(error, response) {
     if (error) {
